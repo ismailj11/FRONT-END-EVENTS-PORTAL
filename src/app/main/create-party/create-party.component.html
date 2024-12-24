@@ -1,0 +1,139 @@
+<div class="form-container">
+  <div class="container d-flex align-items-center justify-content-center h-100">
+    <form
+      [formGroup]="partyForm"
+      class="border border-1 p-4 rounded-3 bg-white bg-opacity-50"
+      style="backdrop-filter: blur(50px);"
+      (submit)="onCreatePartyDetails()"
+    >
+      <div class="d-flex justify-content-center p-3" style="font-size: 40px;">
+        Create Event
+      </div>
+
+      <!-- Event ID -->
+    
+
+      <!-- Event Name -->
+      <div class="form-group col-md-12 my-3 d-flex flex-row">
+        <label for="eventName" style="width: 300px; align-self: center;">Event Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="eventName"
+          placeholder="Enter event name"
+          formControlName="eventName"
+        />
+      </div>
+
+      <!-- Description -->
+      <div class="form-group col-md-12 my-3 d-flex flex-row">
+        <label for="description" style="width: 300px; align-self: center;">Description</label>
+        <textarea
+          class="form-control"
+          id="description"
+          placeholder="Enter description"
+          formControlName="description"
+        ></textarea>
+      </div>
+
+      <!-- Event Type -->
+      <div class="form-group col-md-12 my-3 d-flex flex-row">
+        <label for="eventType" style="width: 300px; align-self: center;">Event Type</label>
+        <select class="form-control" id="eventType" formControlName="eventType">
+          <option value="Public">Public</option>
+          <option value="Private">Private</option>
+        </select>
+      </div>
+
+      <!-- Date -->
+      <div class="form-group col-md-12 my-3 d-flex flex-row">
+        <label for="date" style="width: 300px; align-self: center;">Date</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="date"
+          formControlName="date"
+        />
+      </div>
+
+      <!-- Max Attendees -->
+      <div class="form-group col-md-12 my-3 d-flex flex-row">
+        <label for="maxAttendees" style="width: 300px; align-self: center;">Max Attendees</label>
+        <input
+          type="number"
+          class="form-control"
+          id="maxAttendees"
+          placeholder="Enter max attendees"
+          formControlName="maxAttendees"
+        />
+      </div>
+
+      <!-- Location -->
+      <div class="form-group col-md-12 my-3 d-flex flex-row">
+        <label for="location" style="width: 300px; align-self: center;">Location</label>
+        <input
+          type="text"
+          class="form-control"
+          id="location"
+          placeholder="Enter event location"
+          formControlName="location"
+        />
+      </div>
+
+      <!-- Category -->
+      <div class="form-group col-md-12 my-3 d-flex flex-row">
+        <label for="category" style="width: 300px; align-self: center;">Category</label>
+        <input
+          type="text"
+          class="form-control"
+          id="category"
+          placeholder="Enter event category"
+          formControlName="category"
+        />
+      </div>
+
+      <!-- Requires Ticket -->
+      <div class="form-group col-md-12 my-3 d-flex flex-row">
+        <label for="requiresTicket" style="width: 300px; align-self: center;">Requires Ticket</label>
+        <input type="checkbox" id="requiresTicket" formControlName="requiresTicket" />
+      </div>
+
+      <!-- Hidden Organizer ID (not visible to the user) -->
+      <div style="display: none;">
+        <label for="fkOrganizerId">Organizer ID</label>
+        <input
+          type="number"
+          class="form-control"
+          id="fkOrganizerId"
+          formControlName="fkOrganizerId"
+        />
+      </div>
+
+      <!-- Created At -->
+      <div class="form-group col-md-12 my-3 d-flex flex-row">
+        <label for="createdAt" style="width: 300px; align-self: center;">Created At</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="createdAt"
+          formControlName="createdAt"
+        />
+      </div>
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-center align-items-center my-5">
+        <button type="submit" class="btn btn-primary" [disabled]="!partyForm.valid || isLoading">
+          Create Event
+        </button>
+      </div>
+
+      <!-- Success and Error Messages -->
+      <div *ngIf="successMessage" class="text-center text-success">
+        {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" class="text-center text-danger">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+.scanner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.video-preview {
+  border: 2px solid #000;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+.success-message {
+  color: green;
+  font-weight: bold;
+}

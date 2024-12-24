@@ -1,0 +1,11 @@
+input.ng-invalid.ng-touched,textarea.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
+
+.form-container {
+    width: 100vw; 
+    height: calc(100vh - 77px); 
+    background-image:url(https://images.pexels.com/photos/341858/pexels-photo-341858.jpeg?auto=compress&cs=tinysrgb&w=600); 
+    background-repeat: no-repeat;
+    background-size: cover
+}

@@ -1,0 +1,86 @@
+.navbar {
+    background-color: #3a4f7c;
+    color: #ffffff;
+
+    .navbar-brand {
+        font-size: 28px;
+        font-weight: bold;
+        color: #ffffff;
+        cursor: pointer;
+        &:hover {
+            color: #d4d8e2;
+        }
+    }
+
+    .navbar-toggler {
+        border: none;
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .nav-link {
+        font-size: 18px;
+        color: #ffffff !important;
+        margin: 0 10px;
+        &:hover {
+            color: #c5cbe0;
+        }
+        &.active {
+            border-bottom: 2px solid #ffffff;
+        }
+    }
+
+    .btn-login {
+        background-color: #98a9d1;
+        color: #3a4f7c;
+        border: none;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 5px 20px;
+        transition: background-color 0.3s ease;
+        &:hover {
+            background-color: #7e90b7;
+        }
+    }
+
+    .btn-logout {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: none;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 5px 20px;
+        transition: background-color 0.3s ease;
+        &:hover {
+            background-color: #f5c6cb;
+        }
+    }
+
+    .btn-notification {
+        position: relative;
+        background: transparent;
+        color: #ffffff;
+        font-size: 20px;
+        border: none;
+        margin-right: 15px;
+        padding: 5px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .btn-notification .badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: #ff3d3d;
+        color: #ffffff;
+        border-radius: 50%;
+        font-size: 12px;
+        padding: 3px 6px;
+    }
+
+    .btn-notification:hover {
+        color: #c5cbe0;
+    }
+}

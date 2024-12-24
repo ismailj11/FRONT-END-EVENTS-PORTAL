@@ -1,0 +1,20 @@
+<div class="scanner-container">
+  <h1>QR Code Scanner</h1>
+  <video id="videoElement" class="video-preview" autoplay></video>
+
+  <!-- Display error messages if any -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Display Invitation ID -->
+  <div *ngIf="invitationId" class="success-message">
+    <p>Invitation ID: <strong>{{ invitationId }}</strong></p>
+  </div>
+
+
+  <div *ngIf="qrCodeContent" class="qr-code-content">
+    <p><strong> qr</strong></p>
+    <pre>{{ qrCodeContent | json }}</pre>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<nav class="navbar sticky-top navbar-expand-md navbar-light p-3">
+    <div class="container-fluid">
+        <a class="navbar-brand brand" (click)="home()">Event Management System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item" *ngIf="isAuthenticated">
+                    <a class="nav-link" routerLink="/create" routerLinkActive="active">Create Event</a>
+                </li>
+                <li class="nav-item" *ngIf="isAuthenticated">
+                    <a class="nav-link" routerLink="/event" routerLinkActive="active">View Events</a>
+                </li>
+
+                <!-- Notifications Dropdown -->
+                <li class="nav-item dropdown" *ngIf="isAuthenticated">
+                    <button class="btn btn-notification" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge" *ngIf="notificationsCount > 0">{{ notificationsCount }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                        <li *ngIf="notificationsCount === 0">
+                            <a class="dropdown-item text-muted">No new notifications</a>
+                        </li>
+                        <li *ngFor="let notification of notifications">
+                            <a class="dropdown-item">{{ notification }}</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <button class="dropdown-item text-center text-danger" (click)="clearNotifications()">Clear All</button>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item" *ngIf="isAuthenticated">
+                    <button class="btn btn-logout" (click)="logOut()">
+                        <i class="bi bi-box-arrow-right me-2"></i> Logout
+                    </button>
+                </li>
+                <li *ngIf="!isAuthenticated">
+                    <button class="btn btn-login" (click)="login()" style="margin-right: 10px;">Login</button>
+                  
+                </li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
