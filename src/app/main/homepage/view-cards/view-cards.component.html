@@ -1,46 +1,43 @@
 <section id="team" class="pb-5">
     <div class="container">
-        <h5 class="section-title h1">FEATURES OF EVENTS PORTAL</h5>
-        <div class="row">
-            <!-- Public Events -->
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="card shadow-sm event-card">
-                    <h4 class="card-title">Public Events</h4>
-                    <p class="card-text">Make events like conferences visible to a broad audience.</p>
-                    <img src="https://th.bing.com/th/id/R.8d639588589f3b0245245ae375e5f157?rik=V%2fq0N6B1qPMaOw&pid=ImgRaw&r=0" class="img-fluid">
-                    <a [routerLink]="['/create']" [queryParams]="{ type: 'public' }" class="btn btn-primary">Create Public Event</a>
-                </div>
+        <h5 class="section-title h1">EVENTS PORTAL</h5>
+        <div class="row justify-content-center">
+            <!-- Create Event -->
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <mat-card class="mat-elevation-z3 custom-card" (click)="CreateEvent()">
+                    <mat-card-header class="card-header">
+                        <div class="mat-card-title-wrapper">
+                            <mat-card-title>Create Event</mat-card-title>
+                        </div>
+                    </mat-card-header>
+                    <img mat-card-image src="https://th.bing.com/th/id/R.8d639588589f3b0245245ae375e5f157?rik=V%2fq0N6B1qPMaOw&pid=ImgRaw&r=0" alt="Create Event">
+                    <mat-card-content>
+                        <p>Easily create events of any type for your audience.</p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" class="btn-center" (click)="CreateEvent()">Create Event</button>
+                    </mat-card-actions>
+                </mat-card>
             </div>
 
-            <!-- Private Events -->
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="card shadow-sm event-card">
-                    <h4 class="card-title">Private Events</h4>
-                    <p class="card-text">Keep events like corporate meetings accessible to invitees only.</p>
-                    <img src="https://th.bing.com/th/id/R.9194f3e13103a8ba895ea9e4ba1e3640?rik=xzc5RYILhMcrJQ&riu=http%3a%2f%2fbargetto.com%2fwp-content%2fuploads%2f2014%2f07%2fMaster-Private-Events-Photo.jpg&ehk=8qr6hzd%2bzVuaUzVRP1Tlotbw2HS0nTyk3p9oN4AWV5Q%3d&risl=&pid=ImgRaw&r=0" class="img-fluid">
-                    <a [routerLink]="['/create']" [queryParams]="{ type: 'private' }" class="btn btn-primary">Create Private Event</a>
-                </div>
-            </div>
-
-            <!-- QR Code Ticketing -->
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="card shadow-sm event-card">
-                    <h4 class="card-title">QR Code Ticketing</h4>
-                    <p class="card-text">Provide QR codes for secure and seamless entry to events.</p>
-                    <img src="https://saebyavis.dk/wp-content/uploads/2012/03/Android-QR-Toppen_600x400.jpg" class="img-fluid">
-                    <a href="/path-to-qr-code-ticketing" class="btn btn-primary">Learn More</a>
-                </div>
-            </div>
-            
-            <!-- Event Discovery -->
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="card shadow-sm event-card">
-                    <h4 class="card-title">Event Discovery</h4>
-                    <p class="card-text">Browse events based on preferences for easy discovery.</p>
-                    <img src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60" class="img-fluid">
-                    <a routerLink="/user-events" class="btn btn-primary">Discover Events</a>
-                </div>
+            <!-- Scanner -->
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <mat-card class="mat-elevation-z3 custom-card" (click)="navigateToScanner()">
+                    <mat-card-header class="card-header">
+                        <div class="mat-card-title-wrapper">
+                            <mat-card-title>Scan Invitation</mat-card-title>
+                        </div>
+                    </mat-card-header>
+                    <img mat-card-image src="https://th.bing.com/th/id/OSK.HEROrofFo55IbnsG2bWuv7otj2GT8m9V-1tb0H_qNuDSooE?rs=1&pid=ImgDetMain" alt="Scan Invitation">
+                    <mat-card-content>
+                        <p>Scan your QR code to mark attendance for your event attendees.</p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" class="btn-center" (click)="navigateToScanner()">Scan Now</button>
+                    </mat-card-actions>
+                </mat-card>
             </div>
         </div>
     </div>
+   
 </section>

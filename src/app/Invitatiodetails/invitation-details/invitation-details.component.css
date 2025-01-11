@@ -1,0 +1,147 @@
+/* Main Background */
+.home-main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #003366, #002244);
+  padding: 20px;
+}
+
+/* Table Container */
+.table-container {
+  background: #e9ecef;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Table Title */
+.table-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Table Headers */
+th.mat-header-cell {
+  background-color: #d6d8db;
+  color: #333;
+  font-size: 16px;
+  text-transform: uppercase;
+  padding: 10px;
+  font-weight: bold;
+}
+
+/* Table Rows */
+td.mat-cell, tr.mat-row {
+  background-color: #e9ecef;
+  color: #333;
+  font-size: 14px;
+  padding: 15px;
+}
+
+/* Row Hover Effect */
+tr.mat-row:hover {
+  background-color: rgba(200, 200, 200, 0.7);
+}
+
+/* Chips Styling */
+.status-chip {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 15px;
+  text-transform: uppercase;
+}
+
+.chip-success {
+  background-color: #27ae60;
+  color: white;
+}
+
+.chip-danger {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* Buttons Styling */
+.action-buttons {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+
+button.mat-raised-button {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+}
+
+button.mat-raised-button.color-accent {
+  background-color: #f39c12;
+}
+
+button.mat-raised-button.color-accent:hover {
+  background-color: #d17a0c;
+}
+
+button.mat-raised-button.color-warn {
+  background-color: #e74c3c;
+}
+
+button.mat-raised-button.color-warn:hover {
+  background-color: #c0392b;
+}
+
+/* Pagination Styling */
+.mat-paginator {
+  background-color: transparent;
+  color: #333;
+}
+
+.mat-paginator .mat-paginator-navigation-button {
+  color: #333;
+}
+
+.mat-paginator .mat-form-field {
+  font-size: 14px;
+  color: #333;
+}
+
+
+/* Search Bar Styling */
+.search-bar-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+mat-form-field.search-bar input {
+  font-size: 14px;
+  color: #333;
+}
+
+
+.filter-container-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; /* Add spacing from the table if needed */
+}
+
+.filter-container {
+  flex: 1; /* Adjusts the size of each container if necessary */
+  margin: 0 10px; /* Add spacing between the two filters */
+}
+
+.filter-dropdown {
+  width: 100%;
+}

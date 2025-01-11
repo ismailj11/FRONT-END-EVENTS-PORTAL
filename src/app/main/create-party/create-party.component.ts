@@ -1,9 +1,13 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { APIClient, EventDto } from 'src/app/core/services/api-client.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { jwtDecode } from 'jwt-decode';
+import {FormBuilder } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-create-party',
@@ -16,7 +20,8 @@ export class CreatePartyComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
   organizerId: number = 0;
-
+  username!: string; 
+  Createdat!: Date;
   constructor(private apiClient: APIClient, private router: Router, private toastr : ToastrService) {
 
 
@@ -26,15 +31,17 @@ export class CreatePartyComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+  
     const token = localStorage.getItem("token");
 
     if (token){
       const decodedToken: any = jwtDecode(token);
       this.organizerId = decodedToken.UserId
+      this.username = decodedToken.Username
+    
     }
 
-
+    this.Createdat =new Date()
     this.partyForm = new FormGroup({
 
       
@@ -47,7 +54,7 @@ export class CreatePartyComponent implements OnInit {
       category: new FormControl('', [Validators.required]),
       requiresTicket: new FormControl(false, [Validators.required]),
       fkOrganizerId: new FormControl(this.organizerId, [Validators.required]), 
-      createdAt: new FormControl(new Date().toISOString(), [Validators.required])
+      createdAt: new FormControl(this.Createdat, [Validators.required])
     
     
     
@@ -97,3 +104,5 @@ export class CreatePartyComponent implements OnInit {
     }
   }
 }  
+
+

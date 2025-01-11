@@ -1,22 +1,65 @@
 .main-box {
-    width: 100vw; 
-    height: calc(100vh - 77px); 
-    background-image:url(https://images.pexels.com/photos/341858/pexels-photo-341858.jpeg?auto=compress&cs=tinysrgb&w=600); 
-    background-repeat: no-repeat;
-    background-size: cover
-}
-
-.box {
+    width: 100vw;
+    background: linear-gradient(to bottom, #003366, #002244);
+    color: white;
+    padding: 20px;
+  }
+  
+  .box {
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+table {
     width: 100%;
-    padding: 5px;
-    border: 1px solid black;
-    background-color: #d0efff;
+    border-collapse: collapse;
 }
 
-.cell-width-50 {
-    max-width: 50px;
+mat-header-cell, mat-cell {
+    padding: 16px;
+    font-size: 14px;
+    border: 1px solid #ccc; /* Add border around each cell */
+    text-align: center; /* Center align the text for a cleaner look */
 }
 
-.cell-width-80 {
-    max-width: 80px;
+mat-header-row, mat-row {
+    border-bottom: 1px solid #ddd; /* Add border between rows */
+}
+
+mat-header-cell {
+    background-color: #003366;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+mat-header-cell:first-child, mat-cell:first-child {
+    border-left: none; /* Optional: Remove left border for the first column */
+}
+
+mat-cell:last-child, mat-header-cell:last-child {
+    border-right: none; /* Optional: Remove right border for the last column */
+}
+
+.mat-elevation-z8 {
+    border: 1px solid #ccc; /* Add outer border for the table */
+    border-radius: 5px; /* Add rounded corners for better aesthetics */
+}
+
+  mat-paginator {
+    margin-top: 10px;
+  }
+  .page-container {
+    background-color: #003366; /* Match your design */
+    min-height: 100vh; /* Ensure it takes up the full height of the viewport */
+    padding: 20px; /* Optional padding to prevent content from sticking to edges */
+}
+
+.main-box {
+    background-color: white; /* Keep your main content white if required */
+    margin: auto;
+    border-radius: 8px;
+    padding: 20px;
 }

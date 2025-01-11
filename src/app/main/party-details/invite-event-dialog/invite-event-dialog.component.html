@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Send Invitation</h2>
+<mat-dialog-content>
+  <form>
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" [(ngModel)]="data.email" name="email" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="data.name" name="name" required />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="isLoading" (click)="send()">
+    <span *ngIf="isLoading">Sending...</span>
+    <span *ngIf="!isLoading">Send</span>
+  </button>
+</mat-dialog-actions>

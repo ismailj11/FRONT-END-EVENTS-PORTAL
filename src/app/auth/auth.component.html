@@ -1,30 +1,82 @@
-<div class="box d-flex justify-content-center align-items-center">
-    <div class="container">
-        <div class="row d-flex justify-content-center m-3">
-            <div class="cols-xs-12 col-md-4 col-md-offset-3 p-3 loginForm">
-                <form [formGroup]="authForm">
-                    <div class="form-group py-2 m-2">
-                        <label for="username" class="my-2">Username</label>
-                        <input type="text" class="form-control" id="username" formControlName="username" required>
-                        <div *ngIf="authForm.get('username')?.invalid && authForm.get('username')?.touched" class="text-danger">
-                            Username is required.
-                        </div>
-                    </div>
-                    <div class="form-group py-2 m-2">
-                        <label for="password" class="my-2">Password</label>
-                        <input type="password" class="form-control" id="password" formControlName="password" required>
-                    </div>
-                    <div *ngIf="errorMessage" class="text-center text-danger">{{errorMessage}}</div>
-                    <div class="d-flex justify-content-center py-3">
-                        <button class="btn btn-primary px-3" type="button" (click)="signIn()" [disabled]="!authForm.valid || isLoading">
-                            Log In
-                        </button>
-                    </div>
-                    <div *ngIf="isLoading" class="text-center">
-                        <p>Loading...</p>
-                    </div>
-                </form>
-            </div>
-        </div>
+<div class="auth-container">
+  <!-- Login Section -->
+  <div class="auth-left">
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+      <div class="col-md-6 col-lg-4 p-4 border rounded-3 bg-white bg-opacity-75">
+        <form [formGroup]="authForm">
+          <!-- Form Title -->
+          <div class="d-flex justify-content-center mb-4" style="font-size: 32px; color: #003366; font-weight: bold;">
+            <span>Log In</span>
+          </div>
+
+          <!-- Username Field -->
+          <div class="mb-3">
+            <mat-form-field class="w-100">
+              <mat-label>Username</mat-label>
+              <input
+                matInput
+                placeholder="Enter your username"
+                formControlName="username"
+                required
+              />
+            </mat-form-field>
+          </div>
+
+          <!-- Password Field -->
+          <div class="mb-3">
+            <mat-form-field class="w-100">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                type="password"
+                placeholder="Enter your password"
+                formControlName="password"
+                required
+              />
+            </mat-form-field>
+          </div>
+
+          <!-- Error Message -->
+          <div *ngIf="errorMessage" class="text-center text-danger mb-3">
+            {{ errorMessage }}
+          </div>
+
+          <!-- Submit Button -->
+          <div class="d-flex justify-content-center my-3">
+            <button
+              mat-raised-button
+              color="primary"
+              type="button"
+              (click)="signIn()"
+              [disabled]="!authForm.valid || isLoading"
+            >
+              Log In
+            </button>
+          </div>
+
+          <!-- Loading Indicator -->
+          <div *ngIf="isLoading" class="text-center">
+            <p>Loading...</p>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
+
+  <!-- Sign-Up Section -->
+  <div class="auth-right">
+    <div class="signup-section">
+      <h3>New Here?</h3>
+      <p>Sign up and discover a great amount of new opportunities!</p>
+      <button
+        mat-raised-button
+        color="primary"
+        class="signup-button"
+        (click)="Signup()"
+        [disabled]="!authForm.valid || isLoading"
+      >
+        Sign Up
+      </button>
+    </div>
+  </div>
 </div>

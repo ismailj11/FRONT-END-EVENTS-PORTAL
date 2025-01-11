@@ -1,0 +1,38 @@
+<div class="center-container">
+    <mat-card class="verification-card">
+      <mat-card-header>
+        <mat-card-title>Email Verification</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Please enter the OTP sent to your email <strong>{{ email }}</strong></p>
+  
+        <form (ngSubmit)="validateOtp()">
+          <!-- OTP input field with error display -->
+          <mat-form-field appearance="fill" class="otp-field">
+            <mat-label>OTP</mat-label>
+            <input matInput [(ngModel)]="otp" name="otp" required>
+            <mat-error *ngIf="otpErrorMessage">{{ otpErrorMessage }}</mat-error>
+          </mat-form-field>
+  
+          <!-- Show success message -->
+          <div *ngIf="successMessage" class="alert alert-success">
+            {{ successMessage }}
+          </div>
+  
+          <!-- Show general error message -->
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+  
+          <!-- Submit Button -->
+          <button mat-raised-button color="primary" type="submit" [disabled]="isLoading">Verify OTP</button>
+        </form>
+  
+        <!-- Show Login button after OTP is successfully validated -->
+        <div *ngIf="isVerified">
+          <button mat-raised-button color="accent" (click)="goToLogin()">Go to Login</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

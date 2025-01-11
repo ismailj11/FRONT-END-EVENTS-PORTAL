@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { APIClient } from 'src/app/core/services/api-client.service';
-import { MarkAttendanceDto } from 'src/app/core/services/api-client.service';
 import { BrowserQRCodeReader } from '@zxing/browser';
+import {jwtDecode} from 'jwt-decode';
+import { APIClient, MarkAttendanceDto } from 'src/app/core/services/api-client.service';
 
 @Component({
   selector: 'app-scanner',
@@ -9,7 +9,8 @@ import { BrowserQRCodeReader } from '@zxing/browser';
   styleUrls: ['./scanner.component.css']
 })
 export class ScannerComponent implements OnInit {
-  qrCodeContent: any = null; // To store the full QR code content
+  userId: number | null = null;
+  qrCodeContent: any = null;
   invitationId: string | null = null;
   errorMessage: string | null = null;
 
@@ -18,59 +19,79 @@ export class ScannerComponent implements OnInit {
   constructor(private apiClient: APIClient) {}
 
   ngOnInit(): void {
+    this.getUserIdFromToken();
     this.startScanner();
   }
 
-  private startScanner(): void {
+  private getUserIdFromToken(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token);
+        this.userId = decodedToken.UserId;
+        console.log('User ID retrieved from token:', this.userId);
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        this.errorMessage = 'Invalid or expired token.';
+      }
+    } else {
+      this.errorMessage = 'No token found. Please log in.';
+    }
+  }
+
+  startScanner(): void {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      this.errorMessage = 'Camera access is not supported on this device.';
+      return;
+    }
+
     console.log('Starting QR code scanner...');
     this.qrCodeReader
       .decodeOnceFromVideoDevice(undefined, 'videoElement')
-      .then(result => {
+      .then((result) => {
         const qrCodeText = result.getText();
+        console.log('QR Code scanned:', qrCodeText);
+
         if (qrCodeText) {
-          console.log('Scanned QR Code Content:', qrCodeText);
-          try {
-          
-            const qrCodeData = JSON.parse(qrCodeText);
-            this.qrCodeContent = qrCodeData;
+          const qrCodeData = JSON.parse(qrCodeText);
+          this.qrCodeContent = qrCodeData;
+          this.invitationId = qrCodeData.InvitationID;
 
-            
-            this.invitationId = qrCodeData.InvitationID;
-
-            if (this.invitationId) {
-              this.markAttendance(this.invitationId);
-            } else {
-              this.errorMessage = 'Invalid QR Code: InvitationID not found.';
-            }
-          } catch (error) {
-            console.error('Failed to parse QR code content:', error);
-            this.errorMessage = 'Invalid QR Code content.';
+          if (this.invitationId) {
+            this.markAttendance(this.invitationId);
+          } else {
+            this.errorMessage = 'Invalid QR Code: InvitationID not found.';
           }
-        } else {
-          this.errorMessage = 'No text detected in the QR Code.';
         }
       })
-      .catch(err => {
-        console.error('Scanning error:', err);
-        this.errorMessage = 'Failed to scan QR Code. Please try again.';
+      .catch((err) => {
+        console.error('Error scanning QR Code:', err);
+        this.errorMessage = 'Failed to scan QR Code. Ensure the camera is accessible.';
       });
   }
 
   private markAttendance(invitationId: string): void {
+    if (!this.userId) {
+      this.errorMessage = 'User information is missing.';
+      return;
+    }
+
     const dto: MarkAttendanceDto = {
       invitationId: invitationId,
+      fkUserId: this.userId,
       attendanceStatus: true,
-      attendedAt: new Date()
-    } as MarkAttendanceDto;
+      attendedAt: new Date(),
+      isScanned: true
+    } as MarkAttendanceDto; 
 
     this.apiClient.mark(dto).subscribe({
-      next: response => {
+      next: (response) => {
         console.log('Attendance marked successfully:', response);
         alert('Attendance marked successfully!');
       },
-      error: error => {
+      error: (error) => {
         console.error('Failed to mark attendance:', error);
-        alert('Failed to mark attendance. Please try again.');
+        alert('Failed to mark attendance.');
       }
     });
   }

@@ -1,0 +1,145 @@
+<section class="home-main-content">
+  <div class="container table-container">
+    <h2 class="table-title">Invitation Details</h2>
+
+
+
+  <!-- Search Bar -->
+  <div class="search-bar-container">
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search Invitations</mat-label>
+      <input
+        matInput
+        (input)="{}"
+        placeholder="Search invitations"
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="filter-container-wrapper">
+    <!-- Filter dropdown for email sent (Left) -->
+    <div class="filter-container">
+      <mat-form-field appearance="fill" class="filter-dropdown">
+        <mat-label>Email Sent Filter</mat-label>
+        <mat-select (selectionChange)="onEmailSentFilterChange($event.value)" [value]="'default'">
+          <mat-option value="default">Default</mat-option>
+          <mat-option value="sent">Email Sent</mat-option>
+          <mat-option value="notSent">Email Not Sent</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  
+    <!-- Filter dropdown for attendance (Right) -->
+    <div class="filter-container">
+      <mat-form-field appearance="fill" class="filter-dropdown">
+        <mat-label>Attendance Filter</mat-label>
+        <mat-select (selectionChange)="onAttendanceFilterChange($event.value)" [value]="'default'">
+          <mat-option value="default">Default</mat-option>
+          <mat-option value="true">Attended</mat-option>
+          <mat-option value="false">Not Attended</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 custom-table">
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+          <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+        </ng-container>
+
+        <!-- Invited At Column -->
+        <ng-container matColumnDef="invitedAt">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Invited At </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.invitedAt | date: 'short' }}
+          </td>
+        </ng-container>
+
+        <!-- Attendance Status Column -->
+        <ng-container matColumnDef="attendanceStatus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Attendance </th>
+          <td mat-cell *matCellDef="let element">
+            <span
+              class="status-chip"
+              [ngClass]="element.attendanceStatus ? 'chip-success' : 'chip-danger'"
+            >
+              {{ element.attendanceStatus ? 'Attended' : 'Not Attended' }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Email Sent Column -->
+        <ng-container matColumnDef="isEmailSent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email Sent </th>
+          <td mat-cell *matCellDef="let element">
+            <span
+              class="status-chip"
+              [ngClass]="element.isEmailSent ? 'chip-success' : 'chip-danger'"
+            >
+              {{ element.isEmailSent ? 'Yes' : 'No' }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Allowed Invitation Column -->
+        <ng-container matColumnDef="allowInvitation">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Allowed Invitation </th>
+          <td mat-cell *matCellDef="let element">
+            <span
+              class="status-chip"
+              [ngClass]="element.allowInvitation ? 'chip-success' : 'chip-danger'"
+            >
+              {{ element.allowInvitation ? 'Allowed' : 'Not Allowed' }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="action-buttons">
+              <button
+                mat-raised-button
+                color="accent"
+                class="btn-sm"
+                (click)="openEmailDialog(element.invitationId)"
+              >
+                Resend Invite
+              </button>
+              <button
+                mat-raised-button
+                color="warn"
+                class="btn-sm"
+                (click)="blockInvitation(element.invitationId)"
+              >
+                Block Invitation
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Table Header and Rows -->
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <mat-paginator
+      [pageSize]="10"
+      [pageSizeOptions]="[10, 20, 30, 50, 100]"
+      aria-label="Select page"
+    >
+    </mat-paginator>
+  </div>
+</section>

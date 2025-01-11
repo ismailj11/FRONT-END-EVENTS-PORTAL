@@ -235,6 +235,66 @@ export class APIClient {
         return _observableOf(null as any);
     }
 
+  /**
+     * @param name (optional) 
+     * @param userid (optional) 
+     * @return OK
+     */
+  searchEventByName(name: string | undefined, userid: number | undefined): Observable<EventDtoIEnumerableApiResponse> {
+    let url_ = this.baseUrl + "/api/Event/SearchEventByName?";
+    if (name === null)
+        throw new Error("The parameter 'name' cannot be null.");
+    else if (name !== undefined)
+        url_ += "name=" + encodeURIComponent("" + name) + "&";
+    if (userid === null)
+        throw new Error("The parameter 'userid' cannot be null.");
+    else if (userid !== undefined)
+        url_ += "userid=" + encodeURIComponent("" + userid) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+        observe: "response",
+        responseType: "blob",
+        headers: new HttpHeaders({
+            "Accept": "text/plain"
+        })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.processSearchEventByName(response_);
+    })).pipe(_observableCatch((response_: any) => {
+        if (response_ instanceof HttpResponseBase) {
+            try {
+                return this.processSearchEventByName(response_ as any);
+            } catch (e) {
+                return _observableThrow(e) as any as Observable<EventDtoIEnumerableApiResponse>;
+            }
+        } else
+            return _observableThrow(response_) as any as Observable<EventDtoIEnumerableApiResponse>;
+    }));
+}
+
+protected processSearchEventByName(response: HttpResponseBase): Observable<EventDtoIEnumerableApiResponse> {
+    const status = response.status;
+    const responseBlob =
+        response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result200 = EventDtoIEnumerableApiResponse.fromJS(resultData200);
+        return _observableOf(result200);
+        }));
+    } else if (status !== 200 && status !== 204) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }));
+    }
+    return _observableOf(null as any);
+}
 
 
 
@@ -295,6 +355,82 @@ export class APIClient {
         }
         return _observableOf(null as any);
     }
+
+
+
+
+ /**
+     * @param name (optional) 
+     * @param userid (optional) 
+     * @param eventid (optional) 
+     * @return OK
+     */
+ searchInvitationByName(name: string | undefined, userid: number | undefined, eventid: number | undefined): Observable<CreateInvitationDtoIEnumerableApiResponse> {
+    let url_ = this.baseUrl + "/api/Invitation/SearchInvitationByName?";
+    if (name === null)
+        throw new Error("The parameter 'name' cannot be null.");
+    else if (name !== undefined)
+        url_ += "name=" + encodeURIComponent("" + name) + "&";
+    if (userid === null)
+        throw new Error("The parameter 'userid' cannot be null.");
+    else if (userid !== undefined)
+        url_ += "userid=" + encodeURIComponent("" + userid) + "&";
+    if (eventid === null)
+        throw new Error("The parameter 'eventid' cannot be null.");
+    else if (eventid !== undefined)
+        url_ += "eventid=" + encodeURIComponent("" + eventid) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+        observe: "response",
+        responseType: "blob",
+        headers: new HttpHeaders({
+            "Accept": "text/plain"
+        })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.processSearchInvitationByName(response_);
+    })).pipe(_observableCatch((response_: any) => {
+        if (response_ instanceof HttpResponseBase) {
+            try {
+                return this.processSearchInvitationByName(response_ as any);
+            } catch (e) {
+                return _observableThrow(e) as any as Observable<CreateInvitationDtoIEnumerableApiResponse>;
+            }
+        } else
+            return _observableThrow(response_) as any as Observable<CreateInvitationDtoIEnumerableApiResponse>;
+    }));
+}
+
+protected processSearchInvitationByName(response: HttpResponseBase): Observable<CreateInvitationDtoIEnumerableApiResponse> {
+    const status = response.status;
+    const responseBlob =
+        response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result200 = CreateInvitationDtoIEnumerableApiResponse.fromJS(resultData200);
+        return _observableOf(result200);
+        }));
+    } else if (status !== 200 && status !== 204) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }));
+    }
+    return _observableOf(null as any);
+}
+
+
+
+
+
+
+
 
     /**
      * @param body (optional) 
@@ -626,6 +762,126 @@ export class APIClient {
         }
         return _observableOf(null as any);
     }
+
+/**
+     * @param userid (optional) 
+     * @param eventid (optional) 
+     * @return OK
+     */
+getInvitationByUserEventId(userid: number | undefined, eventid: number | undefined): Observable<CreateInvitationDtoIEnumerableApiResponse> {
+    let url_ = this.baseUrl + "/api/Invitation/GetInvitationByUserEventId?";
+    if (userid === null)
+        throw new Error("The parameter 'userid' cannot be null.");
+    else if (userid !== undefined)
+        url_ += "userid=" + encodeURIComponent("" + userid) + "&";
+    if (eventid === null)
+        throw new Error("The parameter 'eventid' cannot be null.");
+    else if (eventid !== undefined)
+        url_ += "eventid=" + encodeURIComponent("" + eventid) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+        observe: "response",
+        responseType: "blob",
+        headers: new HttpHeaders({
+            "Accept": "text/plain"
+        })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.processGetInvitationByUserEventId(response_);
+    })).pipe(_observableCatch((response_: any) => {
+        if (response_ instanceof HttpResponseBase) {
+            try {
+                return this.processGetInvitationByUserEventId(response_ as any);
+            } catch (e) {
+                return _observableThrow(e) as any as Observable<CreateInvitationDtoIEnumerableApiResponse>;
+            }
+        } else
+            return _observableThrow(response_) as any as Observable<CreateInvitationDtoIEnumerableApiResponse>;
+    }));
+}
+
+protected processGetInvitationByUserEventId(response: HttpResponseBase): Observable<CreateInvitationDtoIEnumerableApiResponse> {
+    const status = response.status;
+    const responseBlob =
+        response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result200 = CreateInvitationDtoIEnumerableApiResponse.fromJS(resultData200);
+        return _observableOf(result200);
+        }));
+    } else if (status !== 200 && status !== 204) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }));
+    }
+    return _observableOf(null as any);
+}
+
+
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    resend(body: ResendInvitationDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/Invitation/resend";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processResend(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processResend(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processResend(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+
+
+
+
 
     /**
      * @param body (optional) 
@@ -1010,60 +1266,249 @@ export class APIClient {
         return _observableOf(null as any);
     }
  
+   /**
+     * @param attended (optional) 
+     * @param eventid (optional) 
+     * @param userid (optional) 
+     * @return OK
+     */
+   getInvitationByAttendance(attended: boolean | undefined, eventid: number | undefined, userid: number | undefined): Observable<CreateInvitationDtoIEnumerableApiResponse> {
+    let url_ = this.baseUrl + "/api/Invitation/GetInvitationByAttendance?";
+    if (attended === null)
+        throw new Error("The parameter 'attended' cannot be null.");
+    else if (attended !== undefined)
+        url_ += "Attended=" + encodeURIComponent("" + attended) + "&";
+    if (eventid === null)
+        throw new Error("The parameter 'eventid' cannot be null.");
+    else if (eventid !== undefined)
+        url_ += "eventid=" + encodeURIComponent("" + eventid) + "&";
+    if (userid === null)
+        throw new Error("The parameter 'userid' cannot be null.");
+    else if (userid !== undefined)
+        url_ += "userid=" + encodeURIComponent("" + userid) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+        observe: "response",
+        responseType: "blob",
+        headers: new HttpHeaders({
+            "Accept": "text/plain"
+        })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.processGetInvitationByAttendance(response_);
+    })).pipe(_observableCatch((response_: any) => {
+        if (response_ instanceof HttpResponseBase) {
+            try {
+                return this.processGetInvitationByAttendance(response_ as any);
+            } catch (e) {
+                return _observableThrow(e) as any as Observable<CreateInvitationDtoIEnumerableApiResponse>;
+            }
+        } else
+            return _observableThrow(response_) as any as Observable<CreateInvitationDtoIEnumerableApiResponse>;
+    }));
+}
+
+protected processGetInvitationByAttendance(response: HttpResponseBase): Observable<CreateInvitationDtoIEnumerableApiResponse> {
+    const status = response.status;
+    const responseBlob =
+        response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result200 = CreateInvitationDtoIEnumerableApiResponse.fromJS(resultData200);
+        return _observableOf(result200);
+        }));
+    } else if (status !== 200 && status !== 204) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }));
+    }
+    return _observableOf(null as any);
+}
 
 
-    /**
+
+
+
+ /**
+     * @param emailsent (optional) 
+     * @param eventid (optional) 
+     * @param userid (optional) 
+     * @return OK
+     */
+ getInvitationByEmailSent(emailsent: boolean | undefined, eventid: number | undefined, userid: number | undefined): Observable<CreateInvitationDtoIEnumerableApiResponse> {
+    let url_ = this.baseUrl + "/api/Invitation/GetInvitationByEmailSent?";
+    if (emailsent === null)
+        throw new Error("The parameter 'emailsent' cannot be null.");
+    else if (emailsent !== undefined)
+        url_ += "emailsent=" + encodeURIComponent("" + emailsent) + "&";
+    if (eventid === null)
+        throw new Error("The parameter 'eventid' cannot be null.");
+    else if (eventid !== undefined)
+        url_ += "eventid=" + encodeURIComponent("" + eventid) + "&";
+    if (userid === null)
+        throw new Error("The parameter 'userid' cannot be null.");
+    else if (userid !== undefined)
+        url_ += "userid=" + encodeURIComponent("" + userid) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+        observe: "response",
+        responseType: "blob",
+        headers: new HttpHeaders({
+            "Accept": "text/plain"
+        })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.processGetInvitationByEmailSent(response_);
+    })).pipe(_observableCatch((response_: any) => {
+        if (response_ instanceof HttpResponseBase) {
+            try {
+                return this.processGetInvitationByEmailSent(response_ as any);
+            } catch (e) {
+                return _observableThrow(e) as any as Observable<CreateInvitationDtoIEnumerableApiResponse>;
+            }
+        } else
+            return _observableThrow(response_) as any as Observable<CreateInvitationDtoIEnumerableApiResponse>;
+    }));
+}
+
+protected processGetInvitationByEmailSent(response: HttpResponseBase): Observable<CreateInvitationDtoIEnumerableApiResponse> {
+    const status = response.status;
+    const responseBlob =
+        response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result200 = CreateInvitationDtoIEnumerableApiResponse.fromJS(resultData200);
+        return _observableOf(result200);
+        }));
+    } else if (status !== 200 && status !== 204) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }));
+    }
+    return _observableOf(null as any);
+}
+
+  /**
+     * @param invitationId (optional) 
+     * @return OK
+     */
+  blockInvitation(invitationId: number | undefined): Observable<void> {
+    let url_ = this.baseUrl + "/api/Invitation/BlockInvitation?";
+    if (invitationId === null)
+        throw new Error("The parameter 'invitationId' cannot be null.");
+    else if (invitationId !== undefined)
+        url_ += "invitationId=" + encodeURIComponent("" + invitationId) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+        observe: "response",
+        responseType: "blob",
+        headers: new HttpHeaders({
+        })
+    };
+
+    return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.processBlockInvitation(response_);
+    })).pipe(_observableCatch((response_: any) => {
+        if (response_ instanceof HttpResponseBase) {
+            try {
+                return this.processBlockInvitation(response_ as any);
+            } catch (e) {
+                return _observableThrow(e) as any as Observable<void>;
+            }
+        } else
+            return _observableThrow(response_) as any as Observable<void>;
+    }));
+}
+
+protected processBlockInvitation(response: HttpResponseBase): Observable<void> {
+    const status = response.status;
+    const responseBlob =
+        response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return _observableOf(null as any);
+        }));
+    } else if (status !== 200 && status !== 204) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }));
+    }
+    return _observableOf(null as any);
+}
+
+
+
+
+
+  /**
      * @param body (optional) 
      * @return OK
      */
-    mark(body: MarkAttendanceDto | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/MarkAttendance/mark";
-        url_ = url_.replace(/[?&]$/, "");
+  mark(body: MarkAttendanceDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + "/api/MarkAttendance/mark";
+    url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+    const content_ = JSON.stringify(body);
 
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-            })
-        };
+    let options_ : any = {
+        body: content_,
+        observe: "response",
+        responseType: "blob",
+        headers: new HttpHeaders({
+            "Content-Type": "application/json",
+        })
+    };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processMark(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processMark(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<void>;
+    return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.processMark(response_);
+    })).pipe(_observableCatch((response_: any) => {
+        if (response_ instanceof HttpResponseBase) {
+            try {
+                return this.processMark(response_ as any);
+            } catch (e) {
+                return _observableThrow(e) as any as Observable<void>;
+            }
+        } else
+            return _observableThrow(response_) as any as Observable<void>;
+    }));
+}
+
+protected processMark(response: HttpResponseBase): Observable<void> {
+    const status = response.status;
+    const responseBlob =
+        response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return _observableOf(null as any);
+        }));
+    } else if (status !== 200 && status !== 204) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }));
     }
-
-    protected processMark(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
+    return _observableOf(null as any);
+}
 
 
 
@@ -2948,7 +3393,125 @@ export class APIClient {
         }
         return _observableOf(null as any);
     }
+
+  /**
+     * @param email (optional) 
+     * @return OK
+     */
+  generateEmailOtp(email: string | undefined): Observable<void> {
+    let url_ = this.baseUrl + "/api/UserOtp/generateEmailOtp?";
+    if (email === null)
+        throw new Error("The parameter 'email' cannot be null.");
+    else if (email !== undefined)
+        url_ += "email=" + encodeURIComponent("" + email) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+        observe: "response",
+        responseType: "blob",
+        headers: new HttpHeaders({
+        })
+    };
+
+    return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.processGenerateEmailOtp(response_);
+    })).pipe(_observableCatch((response_: any) => {
+        if (response_ instanceof HttpResponseBase) {
+            try {
+                return this.processGenerateEmailOtp(response_ as any);
+            } catch (e) {
+                return _observableThrow(e) as any as Observable<void>;
+            }
+        } else
+            return _observableThrow(response_) as any as Observable<void>;
+    }));
 }
+
+protected processGenerateEmailOtp(response: HttpResponseBase): Observable<void> {
+    const status = response.status;
+    const responseBlob =
+        response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return _observableOf(null as any);
+        }));
+    } else if (status !== 200 && status !== 204) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }));
+    }
+    return _observableOf(null as any);
+}
+ /**
+     * @param email (optional) 
+     * @param otp (optional) 
+     * @return OK
+     */
+ validateEmailOtp(email: string | undefined, otp: string | undefined): Observable<void> {
+    let url_ = this.baseUrl + "/api/UserOtp/validateEmailOtp?";
+    if (email === null)
+        throw new Error("The parameter 'email' cannot be null.");
+    else if (email !== undefined)
+        url_ += "email=" + encodeURIComponent("" + email) + "&";
+    if (otp === null)
+        throw new Error("The parameter 'otp' cannot be null.");
+    else if (otp !== undefined)
+        url_ += "otp=" + encodeURIComponent("" + otp) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+        observe: "response",
+        responseType: "blob",
+        headers: new HttpHeaders({
+        })
+    };
+
+    return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.processValidateEmailOtp(response_);
+    })).pipe(_observableCatch((response_: any) => {
+        if (response_ instanceof HttpResponseBase) {
+            try {
+                return this.processValidateEmailOtp(response_ as any);
+            } catch (e) {
+                return _observableThrow(e) as any as Observable<void>;
+            }
+        } else
+            return _observableThrow(response_) as any as Observable<void>;
+    }));
+}
+
+protected processValidateEmailOtp(response: HttpResponseBase): Observable<void> {
+    const status = response.status;
+    const responseBlob =
+        response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return _observableOf(null as any);
+        }));
+    } else if (status !== 200 && status !== 204) {
+        return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }));
+    }
+    return _observableOf(null as any);
+}
+
+
+
+}
+
+
+
+
+
+
+
 
 export class BooleanApiResponse implements IBooleanApiResponse {
     success?: boolean;
@@ -3052,14 +3615,19 @@ export interface ICheckInDto {
     eventId?: number;
     userId?: number;
 }
+
+
+
 export class CreateInvitationDto implements ICreateInvitationDto {
+    invitationId?: number;
     fkEventId?: number;
     fkUserId?: number;
     attendanceStatus?: boolean | null;
     invitedAt?: Date;
     email?: string | null;
     name?: string | null;
-
+    isEmailSent?: boolean | null;
+    allowInvitation?: boolean | null;
     constructor(data?: ICreateInvitationDto) {
         if (data) {
             for (var property in data) {
@@ -3071,12 +3639,15 @@ export class CreateInvitationDto implements ICreateInvitationDto {
 
     init(_data?: any) {
         if (_data) {
+            this.invitationId = _data["invitationId"] !== undefined ? _data["invitationId"] : <any>null;
             this.fkEventId = _data["fkEventId"] !== undefined ? _data["fkEventId"] : <any>null;
             this.fkUserId = _data["fkUserId"] !== undefined ? _data["fkUserId"] : <any>null;
             this.attendanceStatus = _data["attendanceStatus"] !== undefined ? _data["attendanceStatus"] : <any>null;
             this.invitedAt = _data["invitedAt"] ? new Date(_data["invitedAt"].toString()) : <any>null;
             this.email = _data["email"] !== undefined ? _data["email"] : <any>null;
             this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
+            this.isEmailSent = _data["isEmailSent"] !== undefined ? _data["isEmailSent"] : <any>null;
+            this.allowInvitation = _data["allowInvitation"] !== undefined ? _data["allowInvitation"] : <any>null;
         }
     }
 
@@ -3089,23 +3660,102 @@ export class CreateInvitationDto implements ICreateInvitationDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["invitationId"] !== undefined ? data["invitationId"] : <any>null;
         data["fkEventId"] = this.fkEventId !== undefined ? this.fkEventId : <any>null;
         data["fkUserId"] = this.fkUserId !== undefined ? this.fkUserId : <any>null;
         data["attendanceStatus"] = this.attendanceStatus !== undefined ? this.attendanceStatus : <any>null;
         data["invitedAt"] = this.invitedAt ? this.invitedAt.toISOString() : <any>null;
         data["email"] = this.email !== undefined ? this.email : <any>null;
         data["name"] = this.name !== undefined ? this.name : <any>null;
+        data["allowInvitation"] = this.allowInvitation !== undefined ? this.allowInvitation : <any>null;
         return data;
     }
 }
 
 export interface ICreateInvitationDto {
+    invitationId?: number;
     fkEventId?: number;
     fkUserId?: number;
     attendanceStatus?: boolean | null;
     invitedAt?: Date;
     email?: string | null;
     name?: string | null;
+    isEmailSent?: boolean | null;
+    allowInvitation?: boolean | null ;
+}
+
+export class CreateInvitationDtoIEnumerableApiResponse implements ICreateInvitationDtoIEnumerableApiResponse {
+    success?: boolean;
+    data?: CreateInvitationDto[] | null;
+    errors?: string[] | null;
+    errorMessage?: string | null;
+    reasonPhrase?: string | null;
+
+    constructor(data?: ICreateInvitationDtoIEnumerableApiResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.success = _data["success"] !== undefined ? _data["success"] : <any>null;
+            if (Array.isArray(_data["data"])) {
+                this.data = [] as any;
+                for (let item of _data["data"])
+                    this.data!.push(CreateInvitationDto.fromJS(item));
+            }
+            else {
+                this.data = <any>null;
+            }
+            if (Array.isArray(_data["errors"])) {
+                this.errors = [] as any;
+                for (let item of _data["errors"])
+                    this.errors!.push(item);
+            }
+            else {
+                this.errors = <any>null;
+            }
+            this.errorMessage = _data["errorMessage"] !== undefined ? _data["errorMessage"] : <any>null;
+            this.reasonPhrase = _data["reasonPhrase"] !== undefined ? _data["reasonPhrase"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): CreateInvitationDtoIEnumerableApiResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateInvitationDtoIEnumerableApiResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["success"] = this.success !== undefined ? this.success : <any>null;
+        if (Array.isArray(this.data)) {
+            data["data"] = [];
+            for (let item of this.data)
+                data["data"].push(item.toJSON());
+        }
+        if (Array.isArray(this.errors)) {
+            data["errors"] = [];
+            for (let item of this.errors)
+                data["errors"].push(item);
+        }
+        data["errorMessage"] = this.errorMessage !== undefined ? this.errorMessage : <any>null;
+        data["reasonPhrase"] = this.reasonPhrase !== undefined ? this.reasonPhrase : <any>null;
+        return data;
+    }
+}
+
+export interface ICreateInvitationDtoIEnumerableApiResponse {
+    success?: boolean;
+    data?: CreateInvitationDto[] | null;
+    errors?: string[] | null;
+    errorMessage?: string | null;
+    reasonPhrase?: string | null;
 }
 
 
@@ -3729,9 +4379,12 @@ export interface ILoginRequestDto {
     password?: string | null;
 }
 export class MarkAttendanceDto implements IMarkAttendanceDto {
-    invitationId?: string;
+    invitationId?: string | null;
     attendanceStatus?: boolean | null;
     attendedAt?: Date | null;
+
+    fkUserId?: number;
+    isScanned?: boolean | null;
 
     constructor(data?: IMarkAttendanceDto) {
         if (data) {
@@ -3747,6 +4400,8 @@ export class MarkAttendanceDto implements IMarkAttendanceDto {
             this.invitationId = _data["invitationId"] !== undefined ? _data["invitationId"] : <any>null;
             this.attendanceStatus = _data["attendanceStatus"] !== undefined ? _data["attendanceStatus"] : <any>null;
             this.attendedAt = _data["attendedAt"] ? new Date(_data["attendedAt"].toString()) : <any>null;
+            this.fkUserId = _data["fkUserId"] !== undefined ? _data["fkUserId"] : <any>null;
+            this.isScanned = _data["isScanned"] !== undefined ? _data["isScanned"] : <any>null;
         }
     }
 
@@ -3762,15 +4417,65 @@ export class MarkAttendanceDto implements IMarkAttendanceDto {
         data["invitationId"] = this.invitationId !== undefined ? this.invitationId : <any>null;
         data["attendanceStatus"] = this.attendanceStatus !== undefined ? this.attendanceStatus : <any>null;
         data["attendedAt"] = this.attendedAt ? this.attendedAt.toISOString() : <any>null;
+        data["fkUserId"] = this.fkUserId !== undefined ? this.fkUserId : <any>null;
+        data["isScanned"] = this.isScanned !== undefined ? this.isScanned : <any>null;
         return data;
     }
 }
 
 export interface IMarkAttendanceDto {
-    invitationId?: string;
+    invitationId?: string | null;
     attendanceStatus?: boolean | null;
     attendedAt?: Date | null;
+    fkUserId?: number;
+    isScanned?: boolean | null;
 }
+
+
+
+export class ResendInvitationDto implements IResendInvitationDto {
+    invitationId?: number;
+    email?: string | null;
+
+    constructor(data?: IResendInvitationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.invitationId = _data["invitationId"] !== undefined ? _data["invitationId"] : <any>null;
+            this.email = _data["email"] !== undefined ? _data["email"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): ResendInvitationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResendInvitationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["invitationId"] = this.invitationId !== undefined ? this.invitationId : <any>null;
+        data["email"] = this.email !== undefined ? this.email : <any>null;
+        return data;
+    }
+}
+
+export interface IResendInvitationDto {
+    invitationId?: number;
+    email?: string | null;
+}
+
+
+
+
 export class PermissionDto implements IPermissionDto {
     permissionId?: number;
     fkRoleId?: number;
@@ -4331,9 +5036,11 @@ export class UserDto implements IUserDto {
     username?: string | null;
     email?: string | null;
     password?: string | null;
-    fkRoleId?: number;
     createdAt?: Date;
-    lastLogin?: Date | null;
+    dob?: Date | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    isVerified?: boolean | null;
 
     constructor(data?: IUserDto) {
         if (data) {
@@ -4350,9 +5057,11 @@ export class UserDto implements IUserDto {
             this.username = _data["username"] !== undefined ? _data["username"] : <any>null;
             this.email = _data["email"] !== undefined ? _data["email"] : <any>null;
             this.password = _data["password"] !== undefined ? _data["password"] : <any>null;
-            this.fkRoleId = _data["fkRoleId"] !== undefined ? _data["fkRoleId"] : <any>null;
             this.createdAt = _data["createdAt"] ? new Date(_data["createdAt"].toString()) : <any>null;
-            this.lastLogin = _data["lastLogin"] ? new Date(_data["lastLogin"].toString()) : <any>null;
+            this.dob = _data["dob"] ? new Date(_data["dob"].toString()) : <any>null;
+            this.firstName = _data["firstName"] !== undefined ? _data["firstName"] : <any>null;
+            this.lastName = _data["lastName"] !== undefined ? _data["lastName"] : <any>null;
+            this.isVerified = _data["isVerified"] !== undefined ? _data["isVerified"] : <any>null;
         }
     }
 
@@ -4369,9 +5078,11 @@ export class UserDto implements IUserDto {
         data["username"] = this.username !== undefined ? this.username : <any>null;
         data["email"] = this.email !== undefined ? this.email : <any>null;
         data["password"] = this.password !== undefined ? this.password : <any>null;
-        data["fkRoleId"] = this.fkRoleId !== undefined ? this.fkRoleId : <any>null;
         data["createdAt"] = this.createdAt ? this.createdAt.toISOString() : <any>null;
-        data["lastLogin"] = this.lastLogin ? this.lastLogin.toISOString() : <any>null;
+        data["dob"] = this.dob ? this.dob.toISOString() : <any>null;
+        data["firstName"] = this.firstName !== undefined ? this.firstName : <any>null;
+        data["lastName"] = this.lastName !== undefined ? this.lastName : <any>null;
+        data["isVerified"] = this.isVerified !== undefined ? this.isVerified : <any>null;
         return data;
     }
 }
@@ -4381,10 +5092,13 @@ export interface IUserDto {
     username?: string | null;
     email?: string | null;
     password?: string | null;
-    fkRoleId?: number;
     createdAt?: Date;
-    lastLogin?: Date | null;
+    dob?: Date | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    isVerified?: boolean | null;
 }
+
 
 export class UserDtoApiResponse implements IUserDtoApiResponse {
     success?: boolean;

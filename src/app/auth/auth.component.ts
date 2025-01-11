@@ -20,10 +20,16 @@ export class AuthComponent implements OnInit {
     this.authForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', Validators.required) // Only require the field to be filled
+
+
     });
+    
   }
 
-
+    Signup(){
+    this.router.navigate(['signup']);
+  }
+   
 
   signIn() {
     if (this.authForm.valid) {
@@ -65,16 +71,7 @@ export class AuthComponent implements OnInit {
         (error) => {
           this.isLoading = false;
 
-          // error
-          if (error.error && error.error.message) {
-            this.errorMessage = error.error.message; // backend error
-          } else if (error.message) {
-            this.errorMessage = error.message; // Fallback error message
-          } else {
-            this.errorMessage = "An unexpected error occurred.";
-          }
-
-          console.error("Error during login:", error);
+          this.errorMessage= "invalid username or password"
           
         }
 

@@ -1,0 +1,132 @@
+<div class="form-container">
+  <div class="container d-flex align-items-center justify-content-center h-100">
+    <form
+      [formGroup]="updateForm"
+      class="mat-elevation-z4 p-4 rounded-3 bg-white bg-opacity-50"
+      (submit)="onUpdateEventDetails()"
+    >
+      <!-- Form Title -->
+      <div class="d-flex justify-content-center p-3">
+        <span style="font-size: 40px;">Update Event</span>
+      </div>
+
+      <!-- Form Fields -->
+      <div class="form-table">
+        <!-- Event Name -->
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Event Name</mat-label>
+          <input
+            matInput
+            id="eventName"
+            placeholder="Enter event name"
+            formControlName="eventName"
+          />
+        </mat-form-field>
+
+        <!-- Description -->
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            id="description"
+            placeholder="Enter description"
+            formControlName="description"
+          ></textarea>
+        </mat-form-field>
+
+        <!-- Event Type -->
+        <mat-form-field appearance="fill">
+          <mat-label>Event Type</mat-label>
+          <mat-select id="eventType" formControlName="eventType">
+            <mat-option value="Public">Public</mat-option>
+            <mat-option value="Private">Private</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Date -->
+        <mat-form-field appearance="fill">
+          <mat-label>Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="date"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Time -->
+        <mat-form-field appearance="fill">
+          <mat-label>Time</mat-label>
+          <input
+            matInput
+            type="time"
+            formControlName="time"
+            placeholder="Choose time"
+          />
+        </mat-form-field>
+
+        <!-- Max Attendees -->
+        <mat-form-field appearance="fill">
+          <mat-label>Max Attendees</mat-label>
+          <input
+            matInput
+            id="maxAttendees"
+            type="number"
+            placeholder="Enter max attendees"
+            formControlName="maxAttendees"
+          />
+        </mat-form-field>
+
+        <!-- Location -->
+        <mat-form-field appearance="fill">
+          <mat-label>Location</mat-label>
+          <input
+            matInput
+            id="location"
+            placeholder="Enter event location"
+            formControlName="location"
+          />
+        </mat-form-field>
+
+        <!-- Category -->
+        <mat-form-field appearance="fill">
+          <mat-label>Category</mat-label>
+          <input
+            matInput
+            id="category"
+            placeholder="Enter event category"
+            formControlName="category"
+          />
+        </mat-form-field>
+
+        <!-- Requires Ticket -->
+        <div class="checkbox-container">
+          <mat-checkbox id="requiresTicket" formControlName="requiresTicket">
+            Requires Ticket
+          </mat-checkbox>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-center align-items-center my-3 gap-3">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!updateForm.valid || isLoading"
+        >
+          Save Changes
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          type="button"
+          (click)="onCloseClick()"
+        >
+          Close
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

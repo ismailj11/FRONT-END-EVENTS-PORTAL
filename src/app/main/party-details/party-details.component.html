@@ -1,138 +1,109 @@
 <div class="main-box">
-  <div class="box">
-    <form class="d-flex justify-content-center">
-      <div class="form-group col-md-4 my-2 d-flex flex-row">
-        <input type="text" class="form-control" id="search" placeholder="Search events" />
-      </div>
-    </form>
-  </div>
+  <div class="main-box">
+    <mat-card class="box">
+      <form class="d-flex justify-content-center">
+        <mat-form-field appearance="fill" class="w-50">
+          <mat-label>Search events</mat-label>
+          <input
+            matInput
+            placeholder="Search events"
+            (input)="onSearch($event)" />
+        </mat-form-field>
+      </form>
+    </mat-card>
+  
 
-  <table class="table" style="margin-bottom: 0; background-color: white;">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Event Name</th>
-        <th scope="col">Description</th>
-        <th scope="col">Event Type</th>
-        <th scope="col">Date</th>
-        <th scope="col">Max Attendees</th>
-        <th scope="col">Location</th>
-        <th scope="col">Category</th>
-        <th scope="col">Requires Ticket</th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
-    
-    <tbody>
-      <tr *ngFor="let event of events; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ event.eventName }}</td>
-        <td>{{ event.description }}</td>
-        <td>{{ event.eventType }}</td>
-        <td>{{ event.date | date: 'short' }}</td>
-        <td>{{ event.maxAttendees }}</td>
-        <td>{{ event.location }}</td>
-        <td>{{ event.category }}</td>
-        <td>{{ event.requiresTicket ? 'Yes' : 'No' }}</td>
-        <td>
-          <button class="btn btn-primary btn-sm me-2" (click)="onUpdateEvent(event)">Update</button>
-          <button class="btn btn-danger btn-sm me-2" (click)="onDeleteEvent(event)">Delete</button>
-          <button class="btn btn-primary btn-sm me-2" (click)="onInviteToEvent(event)">Invite</button>
+  <!-- Table -->
+  <mat-card>
+    <table mat-table [dataSource]="events" class="mat-elevation-z8" multiTemplateDataRows>
+      <!-- Index Column -->
+      <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let event; let i = index"> {{ i + 1 }} </td>
+      </ng-container>
+
+      <!-- Event Name Column -->
+      <ng-container matColumnDef="eventName">
+        <th mat-header-cell *matHeaderCellDef>Event Name</th>
+        <td mat-cell *matCellDef="let event"> {{ event.eventName }} </td>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let event"> {{ event.description }} </td>
+      </ng-container>
+
+      <!-- Event Type Column -->
+      <ng-container matColumnDef="eventType">
+        <th mat-header-cell *matHeaderCellDef>Event Type</th>
+        <td mat-cell *matCellDef="let event"> {{ event.eventType }} </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let event"> {{ event.date | date: 'short' }} </td>
+      </ng-container>
+
+      <!-- Max Attendees Column -->
+      <ng-container matColumnDef="maxAttendees">
+        <th mat-header-cell *matHeaderCellDef>Max Attendees</th>
+        <td mat-cell *matCellDef="let event"> {{ event.maxAttendees }} </td>
+      </ng-container>
+
+      <!-- Location Column -->
+      <ng-container matColumnDef="location">
+        <th mat-header-cell *matHeaderCellDef>Location</th>
+        <td mat-cell *matCellDef="let event"> {{ event.location }} </td>
+      </ng-container>
+
+      <!-- Category Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>Category</th>
+        <td mat-cell *matCellDef="let event"> {{ event.category }} </td>
+      </ng-container>
+
+      <!-- Requires Ticket Column -->
+      <ng-container matColumnDef="requiresTicket">
+        <th mat-header-cell *matHeaderCellDef>Requires Ticket</th>
+        <td mat-cell *matCellDef="let event">
+          {{ event.requiresTicket ? 'Yes' : 'No' }}
         </td>
-      </tr>
-    </tbody>
-  </table>
+      </ng-container>
 
-  <!-- Error message -->
-  <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
-    {{ errorMessage }}
-  </div>
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let event">
+          <button mat-raised-button color="primary" class="me-2" (click)="onUpdateEvent(event)">
+            Edit
+          </button>
+          <button mat-raised-button color="warn" class="me-2" (click)="onDeleteEvent(event)">
+            Delete
+          </button>
+          <button mat-raised-button color="accent" class="me-2" (click)="onInviteToEvent(event)">
+            Invite
+          </button>
+          <button mat-raised-button color="success" *ngIf="event.eventId !== undefined" (click)="goToInvitationDetails(event.eventId!)">
+            View Invitations
+          </button>
+        </td>
+      </ng-container>
 
-  <!-- Loading spinner -->
-  <div *ngIf="isLoading" class="text-center mt-3">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </div>
+      <!-- Table Headers and Rows -->
+      <tr mat-header-row *matHeaderRowDef="['index', 'eventName', 'description', 'eventType', 'date', 'maxAttendees', 'location', 'category', 'requiresTicket', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['index', 'eventName', 'description', 'eventType', 'date', 'maxAttendees', 'location', 'category', 'requiresTicket', 'actions']"></tr>
+    </table>
+  </mat-card>
 </div>
 
-
-<div class="modal fade" id="updateEventModal" tabindex="-1" aria-labelledby="updateEventModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="updateEventModalLabel">Update Event</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="eventName" class="form-label">Event Name</label>
-            <input type="text" class="form-control" id="eventName" [(ngModel)]="selectedEvent.eventName" name="eventName" />
-          </div>
-          <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" [(ngModel)]="selectedEvent.description" name="description"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="eventType" class="form-label">Event Type</label>
-            <input type="text" class="form-control" id="eventType" [(ngModel)]="selectedEvent.eventType" name="eventType" />
-          </div>
-          <div class="mb-3">
-            <label for="date" class="form-label">Date</label>
-            <input type="datetime-local" class="form-control" id="date" [(ngModel)]="selectedEvent.date" name="date" />
-          </div>
-          <div class="mb-3">
-            <label for="maxAttendees" class="form-label">Max Attendees</label>
-            <input type="number" class="form-control" id="maxAttendees" [(ngModel)]="selectedEvent.maxAttendees" name="maxAttendees" />
-          </div>
-          <div class="mb-3">
-            <label for="location" class="form-label">Location</label>
-            <input type="text" class="form-control" id="location" [(ngModel)]="selectedEvent.location" name="location" />
-          </div>
-          <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <input type="text" class="form-control" id="category" [(ngModel)]="selectedEvent.category" name="category" />
-          </div>
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="requiresTicket" [(ngModel)]="selectedEvent.requiresTicket" name="requiresTicket" />
-            <label class="form-check-label" for="requiresTicket">Requires Ticket</label>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="saveUpdatedEvent()">Save changes</button>
-      </div>
-    </div>
-  </div>
+<!-- Error message -->
+<div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
+  {{ errorMessage }}
 </div>
 
-
-
-<div class="modal fade" id="inviteEventModal" tabindex="-1" aria-labelledby="inviteEventModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="inviteEventModalLabel">Send Invitation</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" [(ngModel)]="invitation.email" name="email" required />
-          </div>
-          <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" [(ngModel)]="invitation.name" name="name" required />
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="sendInvitation()">Send Invitation</button>
-      </div>
-    </div>
-  </div>
+<!-- Loading spinner -->
+<div *ngIf="isLoading" class="text-center mt-3">
+  <mat-spinner></mat-spinner>
 </div>

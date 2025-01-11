@@ -1,15 +1,25 @@
 import { RouterModule, Routes } from "@angular/router";
 import { CreatePartyComponent } from "./main/create-party/create-party.component";
-import { NgModule } from "@angular/core";
+import { Component, NgModule } from "@angular/core";
 import { PartyDetailsComponent } from "./main/party-details/party-details.component";
 import { HomepageComponent } from "./main/homepage/homepage.component";
 import { AuthGuard } from "./auth/auth.guard";
 import { AuthComponent } from "./auth/auth.component";
 import { UserEventsComponent } from "./main/user-events/user-events.component";
 import { ScannerComponent } from "./scanner/scanner/scanner.component";
+import { SignUpComponent } from "./Sign-up/signup/signup.component";
+
+import { InvitationDetailsComponent } from "./Invitatiodetails/invitation-details/invitation-details.component";
+import { EventSelectionComponent } from "./scanner/event-selection/eventselection/eventselection.component";
+import { VerifyEmailComponent } from "./Sign-up/verify-email/verify-email/verify-email.component";
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
+
+    {
+path: 'invitation',
+component:InvitationDetailsComponent
+    },
     {
         path: 'home',
         component: HomepageComponent,
@@ -48,8 +58,15 @@ const appRoutes: Routes = [
     {
 path: 'scanner',component:ScannerComponent
 , canActivate: [AuthGuard]
-    }
-    
+    },
+    {
+    path: 'signup',component: SignUpComponent
+    },
+    {
+  path: 'selecteventtoscan',component:EventSelectionComponent
+  ,canActivate: [AuthGuard]
+    },
+    { path: 'verify-email', component: VerifyEmailComponent },
 
 ]
 

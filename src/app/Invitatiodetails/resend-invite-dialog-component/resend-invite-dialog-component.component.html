@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Resend Invite</h1>
+<div mat-dialog-content>
+  <p>Enter the email address to resend the invitation:</p>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Email</mat-label>
+    <input matInput [(ngModel)]="data.email" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onSubmit()">Submit</button>
+</div>

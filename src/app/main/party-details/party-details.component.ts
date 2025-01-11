@@ -3,6 +3,10 @@ import { APIClient, CreateInvitationDto, EventDto } from 'src/app/core/services/
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { jwtDecode } from 'jwt-decode';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateEventDialogComponent } from './update-event-dialog/update-event-dialog.component';
+import { InvitationDetailsComponent } from 'src/app/Invitatiodetails/invitation-details/invitation-details.component';
+import { InviteEventDialogComponent } from './invite-event-dialog/invite-event-dialog.component';
 declare var bootstrap: any; // For Bootstrap modal handling
 
 @Component({
@@ -12,13 +16,15 @@ declare var bootstrap: any; // For Bootstrap modal handling
 })
 export class PartyDetailsComponent implements OnInit {
   events: EventDto[] = [];
+  
+  
   invitation: CreateInvitationDto = new CreateInvitationDto();  // Invitation DTO
 
   selectedEvent: EventDto = new EventDto({}); 
   isLoading: boolean = false;
   errorMessage: string = '';
   organizerId: number = 0;
-  constructor(private apiClient: APIClient, private router: Router, private toastr:ToastrService) {}
+  constructor(private apiClient: APIClient, private router: Router, private toastr:ToastrService,private dialog: MatDialog) {}
 
   ngOnInit(): void {
     const token = localStorage.getItem("token");
@@ -28,14 +34,64 @@ export class PartyDetailsComponent implements OnInit {
       this.organizerId = decodedToken.UserId
     }
 
+
+
+
     this.fetchEvents();
    
+
+    
 
 
   }
 
 
+
+
+  onSearch(event: Event): void {
+    const searchText = (event.target as HTMLInputElement).value;
   
+    if (searchText.length >= 3) {
+    
+      this.isLoading = true;
+      this.apiClient.searchEventByName(searchText, this.organizerId).subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          if (response.success && response.data) {
+            this.events = response.data.map((event: any) => new EventDto(event));
+          } else {
+            this.events = []; 
+          }
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.errorMessage = 'Error searching events.';
+          console.error(err);
+        }
+      });
+    } else {
+      
+      this.fetchEvents();
+    }
+  }
+  
+
+  
+
+
+
+
+goToInvitationDetails(eventId: number | undefined): void {
+  if (eventId !== undefined) {
+    this.router.navigate(['/invitation'], { queryParams: { eventId } });
+  } else {
+    this.toastr.error('Invalid event ID. Please try again.');
+  }
+}
+
+
+
+
 
   fetchEvents(): void {
     this.isLoading = true;
@@ -55,97 +111,53 @@ export class PartyDetailsComponent implements OnInit {
       }
     );
   }
-
   onUpdateEvent(event: EventDto): void {
-    // Clone and initialize selectedEvent to avoid type issues
-    this.selectedEvent = new EventDto({ ...event });
-
-    const modalElement = document.getElementById('updateEventModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-  }
-
-  saveUpdatedEvent(): void {
-    this.isLoading = true;
-    this.apiClient.update(this.selectedEvent).subscribe(
-      (response) => {
-        this.isLoading = false;
-        if (response && response.success) {
-          // Find the index of the updated event
-          const index = this.events.findIndex((e) => e.eventId === this.selectedEvent.eventId);
-          if (index !== -1) {
-            // Replace the event with the updated one, properly cloning to a new EventDto
-            this.events[index] = new EventDto({ ...this.selectedEvent });
-          }
-          this.toastr.success('event updated successfully');
-       
-        } else {
-          this.errorMessage = response.errorMessage || 'Failed to update the event.';
-          this.toastr.success('event update Failed');
-        }
-
-        // Close the modal
-        const modalElement = document.getElementById('updateEventModal');
-        if (modalElement) {
-          const modal = bootstrap.Modal.getInstance(modalElement);
-          modal.hide();
-        }
-      },
-      (error) => {
-        this.isLoading = false;
-        this.errorMessage = 'An error occurred while updating the event.';
-        console.error(error);
-      }
-    );
-  }
-   
-    // Handle the opening of the invite event modal
-    onInviteToEvent(event: EventDto): void {
-      // Prepare the invitation DTO with event-related and user-related data
-      this.invitation.fkEventId = event.eventId;  // Use selected event's ID
-      this.invitation.fkUserId = this.organizerId;  // Use the UserId from the token
-      this.invitation.invitedAt = new Date();  // Set the current date and time
+    const dialogRef = this.dialog.open(UpdateEventDialogComponent, {
+      width: '600px',
+      data: { ...event }, 
+      disableClose: true, 
+    });
   
-      // Open the modal for inviting
-      const modalElement = document.getElementById('inviteEventModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
-
-
-
-    sendInvitation(): void {
-      // Automatically set attendanceStatus to false
-      this.invitation.attendanceStatus = false;
     
-      this.isLoading = true;
-      this.apiClient.send2(this.invitation).subscribe(
-        () => {
-          // Assuming the absence of an error means success
-          this.isLoading = false;
-          this.toastr.success('Invitation sent successfully');
-          
-          // Close the modal after sending the invitation
-          const modalElement = document.getElementById('inviteEventModal');
-          if (modalElement) {
-            const modal = bootstrap.Modal.getInstance(modalElement);
-            modal.hide();
-          }
-        },
-        (error) => {
-          this.isLoading = false;
-          this.errorMessage = error?.message || 'An error occurred while sending the invitation.';
-          this.toastr.error(this.errorMessage);
-          console.error(error);
-        }
-      );
-    }
+    dialogRef.backdropClick().subscribe(() => {
+      const shouldClose = confirm('Do you want to close?');
+      if (shouldClose) {
+        dialogRef.close(); 
+      }
+    });
+  
+    // Handle the result after the dialog is closed
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Handle updated event (e.g., refresh event list)
+        this.fetchEvents();
+      }
+    });
+  }
   
 
+
+   
+    // dialog invite
+    onInviteToEvent(event: any): void {
+      const dialogRef = this.dialog.open(InviteEventDialogComponent, {
+        width: '400px',
+        data: { fkEventId: event.eventId, fkUserId: this.organizerId  },
+      });
+    
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          // Handle the invitation data here
+
+          console.log('Invitation sent:', result);
+          this.fetchEvents();
+        }
+      });
+    }
+
+
+
+   
   onDeleteEvent(event: EventDto): void {
     const confirmDelete = confirm('Are you sure you want to delete this event?');
     if (confirmDelete) {

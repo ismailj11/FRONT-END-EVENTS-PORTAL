@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>Edit Profile</h1>
+<div mat-dialog-content>
+  <!-- Username Field -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Username</mat-label>
+    <input matInput [(ngModel)]="username" />
+  </mat-form-field>
+
+  <!-- First Name Field -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>First Name</mat-label>
+    <input matInput [(ngModel)]="firstName" />
+  </mat-form-field>
+
+  <!-- Last Name Field -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Last Name</mat-label>
+    <input matInput [(ngModel)]="lastName" />
+  </mat-form-field>
+
+  <!-- Date of Birth Field -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Date of Birth</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="dob" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <!-- Cancel Button -->
+  <button mat-button (click)="onCancel()">Cancel</button>
+
+  <!-- Save Button -->
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</div>

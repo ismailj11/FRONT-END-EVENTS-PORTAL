@@ -1,73 +1,123 @@
-/* Light background for #team section */
-#team {
-    background-image: url('/src/assets/images/background.webp   '); /* Use relative path to the assets folder */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 60px 0;
-    color: #333;
+.container {
+    margin: 40px auto;
+    text-align: center;
+    max-width: 1200px; /* Restrict width for better focus */
 }
 
-/* Section title styling */
 .section-title {
-    color: #007b5e;
+    font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 60px;
+    color: #333333;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
-/* Card styling */
-.event-card {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+.custom-card {
+    margin: 15px;
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    position: relative; /* Needed to make the wrapper work properly */
+    overflow: hidden; 
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    border-radius: 15px;
+    background-color: #ffffff; /* Clean background */
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.custom-card:hover {
+    transform: translateY(-10px); /* Lift effect on hover */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.mat-card-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.mat-card-title-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.mat-card-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-align: center;
+    color: #3f51b5;
+    margin: 0;
+    text-transform: capitalize;
+    line-height: 1.5;
+}
+
+.mat-card-content p {
+    font-size: 1rem;
+    text-align: center;
+    color: #555555; /* Softer color */
+    line-height: 1.6; /* Better readability */
+    margin: 10px 0 20px;
+}
+
+.mat-card-actions {
+    position: relative;
+    z-index: 2; /* Ensure the button stays functional and above the clickable area */
+  }
+.btn-center {
+    width: 70%; /* Adjusted for balance */
+    padding: 12px 20px;
+    margin: 0 auto;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.9rem;
+    background-color: #6200ea !important;
+    color: white !important;
+    border-radius: 25px; /* Softer button corners */
+    box-shadow: 0px 4px 8px rgba(98, 0, 234, 0.3); /* Subtle shadow */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Hover animation */
+}
+
+.btn-center:hover {
+    background-color: #4a00c2 !important;
+    transform: scale(1.05); 
+}
+
+.dialog-container {
     padding: 20px;
     text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    height: 100%; /* Ensures consistent height */
-}
-
-.event-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
-
-/* Enforcing a consistent image size */
-.event-card img {
-    width: 100%;
-    height: 150px; /* Fixed height for uniformity */
-    object-fit: cover; /* Crop and scale the image to fit */
-    border-radius: 8px;
-    margin-bottom: 15px;
-}
-
-.event-card .card-title {
-    color: #007b5e;
-    font-size: 18px;
-    font-weight: bold;
+  }
+  
+  .dialog-container h2 {
+    font-size: 24px;
     margin-bottom: 10px;
-}
-
-.event-card .card-text {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 20px;
-}
-
-/* Button styling */
-.btn-primary {
-    background-color: #28a745;
-    border: none;
-    color: #ffffff;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: #218838;
-}
+  }
+  
+  .dialog-container p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 10px 0;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  .card-link-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 1; /* Ensure it stays above the card but below the button */
+  }
